@@ -1,0 +1,9 @@
+# Created on September, 19th
+# To see if a file is ignored, run $ git check-ignore -v
+
+## Readme ##
+.rst
+.md
+
+## Dev-files ##
+*.dev

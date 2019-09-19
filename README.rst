@@ -1,7 +1,6 @@
 =======================
-Bots Activities - Internal Page
+Bot Actions - Internal Page
 =======================
-
 
 ===========
 Description

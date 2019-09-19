@@ -1,0 +1,33 @@
+Create a new repository on the command line
+
+echo "# Scoutingv0.2" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git remote add origin https://github.com/realFranco/Scoutingv0.2.git
+git remote add origin https://github.com/realFranco/
+git push -u origin master
+
+
+# To install the bot
+
+git clone git@github.com:realFranco/Scoutingv0.2.git
+    or git clone https://github.com/realFranco/Scoutingv0.2.git
+ -> Copy the utils/.json local file into utils/ folder of the project
+
+ # To push the changes
+
+> https://stackoverflow.com/questions/2745076/what-are-the-differences-between-git-commit-and-git-push
+git add .
+git commit -m ""
+git push -u origin master # add the gitToken's value
+
+
+# To pull the changes
+
+If the command git status show files to be commited
+    (do not worry about new untracked elements), try:
+git checkout . # To discard all changes on the files
+git pull
+
+Then execute the sc_run.py file, if it is necessary edit the crontab of the system
