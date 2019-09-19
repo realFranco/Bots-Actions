@@ -16,7 +16,8 @@ This web-project will be builded using this stack:
 
 
 Allowed on s3 buckets and using a subdomain, **botactions** from the website **systemagency.com**
-creating the route botactions.systemagency.com
+creating the route botactions.systemagency.com. The finally of this "internal" web-page is for 
+inform to the users of the bot, what are the activities related over the using it.
 
 ======================
 Public Endpoints

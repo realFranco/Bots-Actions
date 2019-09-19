@@ -4,8 +4,7 @@ echo "# Scoutingv0.2" >> README.md
 git init
 git add README.md
 git commit -m "first commit"
-git remote add origin https://github.com/realFranco/Scoutingv0.2.git
-git remote add origin https://github.com/realFranco/
+git remote add origin https://github.com/realFranco/Bots-Actions.git
 git push -u origin master
 
 
