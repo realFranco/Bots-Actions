@@ -4,15 +4,10 @@ echo "# Scoutingv0.2" >> README.md
 git init
 git add README.md
 git commit -m "first commit"
-git remote add origin https://github.com/realFranco/Bots-Actions.git
+git remote add origin https://github.com/realFranco/Bots-Actions.git 
+# or create the repo and avoid the bellow line
 git push -u origin master
 
-
-# To install the bot
-
-git clone git@github.com:realFranco/Scoutingv0.2.git
-    or git clone https://github.com/realFranco/Scoutingv0.2.git
- -> Copy the utils/.json local file into utils/ folder of the project
 
  # To push the changes
 
@@ -29,4 +24,6 @@ If the command git status show files to be commited
 git checkout . # To discard all changes on the files
 git pull
 
-Then execute the sc_run.py file, if it is necessary edit the crontab of the system
+
+# To send the files into a s3 bucket
+aws s3 cp utils/Scouting.db  s3://scouting-bot-files/v2/
