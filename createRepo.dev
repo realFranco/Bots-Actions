@@ -26,4 +26,13 @@ git pull
 
 
 # To send the files into a s3 bucket
-aws s3 cp utils/Scouting.db  s3://scouting-bot-files/v2/
+aws s3 cp motheragencies.html s3://www.botactions.systemagency.com
+
+
+# For run the flask microframework
+$ python3 app.py
+
+
+# To restart the server and the process is running
+$ ps -fa | grep python (find the filename that you running before)
+$  kill -9 pid
