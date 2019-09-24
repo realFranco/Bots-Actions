@@ -25,6 +25,10 @@ git checkout . # To discard all changes on the files
 git pull
 
 
+# If the git's [rejected] problem appears:
+git fetch origin
+
+
 # To send the files into a s3 bucket
 aws s3 cp motheragencies.html s3://www.botactions.systemagency.com
 

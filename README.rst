@@ -35,11 +35,11 @@ Instructions for Run the server
 1. Install the dependecies. (Previusly you need to have 
     python3 installed on your system.)
 
-    $ pip3 instal -r requeriments.txt
+    $ pip3 install -r requeriments.txt
 
 2. Run the web-server.
 
-    $ python3 app.python
+    $ python3 app.py
 
 ===========================================================
 If your pourpose it is run this under a subdomain, do this:
