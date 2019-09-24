@@ -41,7 +41,9 @@ def data_template():
             else:
                 data_container[ item["country"] ] = []
 
+    data_container = dict( sorted(data_container.items()) )
+
     return render_template('motheragencies.dev.html', data=data_container)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()

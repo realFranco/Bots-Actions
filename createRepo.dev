@@ -26,6 +26,9 @@ git pull
 
 
 # If the git's [rejected] problem appears:
+https://help.github.com/es/articles/dealing-with-non-fast-forward-errors
+https://help.github.com/en/articles/resolving-a-merge-conflict-using-the-command-line
+
 git fetch origin
 
 

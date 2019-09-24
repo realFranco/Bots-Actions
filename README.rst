@@ -41,6 +41,20 @@ Instructions for Run the server
 
     $ python3 app.py
 
+2.1 If you need to close the terminal where the script it is running,
+    do this.
+
+    $ nohup python3 app.py &
+    This will output a numbers, that becomes in the pID of the script.
+
+    Actually you can find that process using this command:
+
+    $ ps -fa | grep python
+
+    And kill it using:
+
+    $ kill -9 pID (where pID is the number returned on after 
+    nohup or the ps command).
 
 ===========================================================
 If your pourpose it is run this under a subdomain, do this:
@@ -48,3 +62,4 @@ If your pourpose it is run this under a subdomain, do this:
 
 0. Step initial
 
+    $ nohup python3 app.py &
