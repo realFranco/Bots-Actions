@@ -28,4 +28,22 @@ Public Subdomain
 Instructions for Run the server
 ================================
 
-0. Step
+0. CLone the repo. 
+
+    $ git clone git@github.com:realFranco/Bots-Actions.git
+
+1. Install the dependecies. (Previusly you need to have 
+    python3 installed on your system.)
+
+    $ pip3 instal -r requeriments.txt
+
+2. Run the web-server.
+
+    $ python3 app.python
+
+===========================================================
+If your pourpose it is run this under a subdomain, do this:
+===========================================================
+
+0. Step initial
+
