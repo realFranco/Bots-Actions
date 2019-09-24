@@ -1,0 +1,70 @@
+<html>
+
+    <head>
+        <title> Bots Actions | System Agency </title>
+        <!-- <link rel="icon" type="image/png" href="https://www.systemagency.com/assets/imageedit_2_4612789236.png", sizes="16x16 24x24 36x36 48x48"> -->
+        
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    </head>
+
+    <div class="main" align="center">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="https://www.systemagency.com/">
+                <img src="https://www.systemagency.com/assets/imageedit_2_4612789236.png" width="120" height="30" alt="">
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </nav>
+    </div>
+
+    <div class="jumbotron">
+        <h1 class="display-4">Bot Activities</h1>
+        <hr class="my-4">
+        <p>In this tiny web page you can see the Mother Agencies where our bot Scouting are following.</p>
+        <p>This page will contain buttons like an accordion, with a country name, click it and see the list of page followed in that country.</p>
+    </div>
+
+    <div class="container">
+        <div class="accordion" id="accordionCountry">
+            <div class="card">
+                {% if data %}
+                    {% for element in data.keys() %}
+                        <div class="card-header"  id="heading{{ element }}">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse{{ element }}" aria-expanded="false" aria-controls="collapse{{ element }}">
+                                {{ element }}
+                            </button>
+                        </h2>
+                        </div>
+                        <div id="collapse{{ element }}" class="collapse" aria-labelledby="heading{{ element }}" data-parent="#accordionCountry">
+                            {% for country_element in data[element] %}
+                                <div class="card-body">
+                                    <a href={{ country_element[1] }}>
+                                        {{ country_element[0] }}
+                                    </a>
+                                    <!-- <img style="float: right" src="https://cdn0.iconfinder.com/data/icons/ikooni-outline-seo-web/128/seo2-08-512.png", height="45px"> -->
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>            
+        </div>
+    </div> <!-- End of the Container -->
+    
+    <!-- Footer -->
+    <footer class="page-footer font-small unique-color-dark pt-4">
+      
+        <!-- Copyright -->
+        <div class="footer-copyright text-center py-3">SYSTEM Agency © 2019
+        </div>
+        <!-- Copyright -->
+      
+    </footer>
+    <!-- Footer -->
+    
+</html>

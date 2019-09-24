@@ -10,20 +10,19 @@ This web-project will be builded using this stack:
 
 1. Bootstrap
 
-2. Node.js
+2. Flask Microframework (python)
 
 3. DynamoDB
 
 
-Allowed on s3 buckets and using a subdomain, **botactions** from the website **systemagency.com**
-creating the route botactions.systemagency.com. The finally of this "internal" web-page is for 
-inform to the users of the bot, what are the activities related over the using it.
+The finally of this "internal" web-page is for inform to the users of 
+the bot, what are the activities related over the using it.
 
 ======================
-Public Endpoints
+Public Subdomain
 ======================
 
-**/motheragencies**: List of all of the mother agencies where the Scouting bot (v1 & v2) has access
+**botactions.systemagency.com**: List of all of the mother agencies where the Scouting bot (v1 & v2) has access
 
 ================================
 Instructions for Run the server
