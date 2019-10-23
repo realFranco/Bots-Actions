@@ -16,15 +16,14 @@ $ nohup sudo python3 app_bot_actions.py &
 """
 
 import os
-import hashlib
 from functools import wraps
 import datetime
 from time import gmtime, strftime
 
-from flask import Flask
-from flask import render_template, redirect, url_for, session, request
 from flask_cors import CORS, cross_origin
-from flask import jsonify
+from flask import render_template, redirect, url_for
+from flask import session, request, jsonify
+from flask import Flask
 import jwt
 
 from dynamo_client import dynamoInterface
@@ -66,8 +65,6 @@ def auth_required(func):
         actual_user = None
         if 'token' in list(session.keys()) and session['token']:
             token = session['token']
-            print('token')
-            print(token)
             try:
                 data = jwt.decode(token, app.config['SECRET_KEY'])
                 args = {
@@ -80,9 +77,6 @@ def auth_required(func):
                 return jsonify({"Message": "The current token is invalid."}), 401
         else:
             return jsonify({"Message": "Not exist token in headers."}), 401
-
-        print('Actual User.')
-        print(actual_user)
 
         return func(actual_user)
 
@@ -102,9 +96,6 @@ def data_template():
     
     if 'token' in list(session.keys()) and session['token']:
         token = session['token']
-        print('Main.')
-        print('token')
-        print(token)
         data = jwt.decode(token, app.config['SECRET_KEY'])
         args = {
             "gsidataportion": "SystemUser",
@@ -128,8 +119,16 @@ def data_template():
             .append((item['url_name'], item['pkurl']))
 
     data_container['initial_greeting'] = initial_greeting
-    data_container['country'] = dict(sorted(data_container['country'].items()))
 
+    c_lower, data_sorted = {}, {}
+    for key in list(data_container['country'].keys()):
+        c_lower[key.lower()] = key
+
+    for key in sorted(c_lower):
+        data_sorted[ c_lower[key] ] = data_container['country'][c_lower[key]]
+
+    data_container['country'] = data_sorted
+    
     return render_template(template, data=data_container), 200
 
 
@@ -146,8 +145,6 @@ def create(actual_user):
     }
     for key in list(item.keys()):
         if item[key] == "": item.pop(key)
-
-    print('item'); print(item)
 
     dynamo.insert(item=item)
     # Element inserted: 201
@@ -171,8 +168,7 @@ def query():
         'gsidataportion':'agency',
         'url_name': request.args.get('url_name'),
         'pkurl': request.args.get('pkurl'),
-        'status': request.args.get('status'),
-        # 'country': request.args.get('country')
+        'status': request.args.get('status')
     }    
     eq = {
         'country': request.args.get('country')
@@ -200,7 +196,6 @@ def update(actual_user):
     }
 
     args = {
-        # 'gsidataportion':'agency',
         'image': request.args.get('image'),
         'url_name': request.args.get('url_name'),
         "date_in": date_formating(),
