@@ -4,46 +4,137 @@ For execute this python script:
 $ python3 app.py
 
 This script will active a web server to response the
-request on 'botactions.systemagency.com'.
+requests from 'botactions.systemagency.com'.
 
 The main web page will contain a list of the web pages
 that the Mother Agencie bot are reading for send
 notificationes on the emails avaliable like destiny,
+
+> lsof -i :8000
+
+kill -9 xxx
+
 """
 
 import os
 
+import jwt
 from flask import Flask
-from flask import render_template
+from flask_cors import CORS, cross_origin
+from flask import render_template, redirect, url_for
+from flask import session, request, jsonify, make_response
+from jwt.exceptions import ExpiredSignature
 
-from createTable import dynamoInterface
+from utils.auth import auth
+from views.data import data
+from views.errors import errors
+from views.ig_bio import ig_bio
+from views.sessions import sessions
+from views.sa_signature import sa_signature
+from views.ig_following import ig_following
+from views.web_scouting import web_scouting
+from views.country_scouts import country_scouts
+
+from utils.dynamo_client import dynamoInterface
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] \
+    = "f95b6589a033d93ac16e665ac4b7c112e55db60920146ac8776e36e0527743c6"
+    
+# Grant access on CORS
+CORS(app)
 
-# Trigger the func. defined after this line
-# Using a converter type and Rendering templates
-@app.route('/')
+# Registration of the set of endpoints.
+app.register_blueprint(data)
+app.register_blueprint(ig_bio)
+app.register_blueprint(sessions)
+app.register_blueprint(ig_following)
+app.register_blueprint(web_scouting)
+app.register_blueprint(sa_signature)
+app.register_blueprint(country_scouts)
+# app.register_blueprint(errors)
+
+# Init the decorator for authentication
+auth = auth() 
+
+# Starting the DynamoDB interface
+dynamo = dynamoInterface(table_name='ma_bot_actions'); dynamo.connect()
+
+
+@app.route('/', methods=['GET'])
+def main_login():
+    template = 'main/main_login.html'
+    token = None
+    data = {}
+    if 'token' in list(session.keys()) and session['token']:
+        token = session['token']
+        try:
+            data = jwt.decode(token, app.config['SECRET_KEY'])
+            args = {
+                "gsidataportion": "SystemUser",
+                "publicKey" : data["publicKey"]        
+            }
+            output = dynamo.query_items(arguments=args, debug_query=True)
+            if output['Count'] > 0:
+                # User exist
+                template = 'main/main.html'
+                username = output['Items'][0]['pkurl'].split('@')[0].capitalize()
+                data['initial_greeting'] = 'Welcome {}'.format(username.split('.')[0])
+        except ExpiredSignature as exp:
+            print("Expired session: ")
+            print(exp)
+
+    return render_template(template, data=data), 200
+
+
+@app.route('/main_no_auth', methods=['GET'])
 def data_template():
     """ Importing the dynamo class interface for query
     just the agency names.
     """
+    initial_greeting = 'Welcome'
+    template = 'motheragencies.no.auth.dev.html'
+    token = None
+    if 'token' in list(session.keys()) and session['token']:
+        token = session['token']
+        data = jwt.decode(token, app.config['SECRET_KEY'])
+        args = {
+            "gsidataportion": "SystemUser",
+            "publicKey" : data["publicKey"]        
+        }
+        output = dynamo.query_items(arguments=args, debug_query=True)
+        if output['Count'] > 0:
+            # User exist
+            template = 'motheragencies.dev.html'
+            username = output['Items'][0]['pkurl'].split('@')[0].capitalize()
+            initial_greeting = 'Welcome {}'.format(username.split('.')[0])
 
-    dynamo = dynamoInterface(table_name="ma_bot_actions"); dynamo.connect()
+    args = {'gsidataportion':'agency'}
+    attr_target = ['url_name']
+    data_container = {'country': {}}
 
-    arguments = {"gsi":"agency"}
-    output, data_container = dynamo.query_items(arguments), {}
+    output = dynamo.query_items(
+        arguments=args, attr_exist=attr_target, debug_query=True)
 
-    for item in output["Items"]:
-        if "url_name" in item.keys():
-            if item["country"] in data_container.keys():
-                data_container[ item["country"] ].append( 
-                    ( item["url_name"], item["pkurl"] ) )
-            else:
-                data_container[ item["country"] ] = []
+    for item in output['Items']:
+        if item['country'] not in data_container.keys():
+            data_container['country'][ item["country"] ] = []
+        data_container['country'][ item['country'] ]\
+            .append((item['url_name'], item['pkurl']))
 
-    data_container = dict( sorted(data_container.items()) )
+    data_container['initial_greeting'] = initial_greeting
 
-    return render_template('motheragencies.dev.html', data=data_container)
+    c_lower, data_sorted = {}, {}
+    for key in list(data_container['country'].keys()):
+        c_lower[key.lower()] = key
+
+    for key in sorted(c_lower):
+        data_sorted[ c_lower[key] ] = data_container['country'][c_lower[key]]
+
+    data_container['country'] = data_sorted
+    
+    return render_template(template, data=data_container), 200
+
 
 if __name__ == '__main__':
-    app.run()
+    app.run(port=8000)

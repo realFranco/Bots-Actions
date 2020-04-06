@@ -1,0 +1,288 @@
+<!-- October 10th, 2019 -->
+<html>
+    <head>
+        <title> Bots Actions | SA Signature </title>
+
+        <link rel="shortcut icon" type="image/x-icon" href="../../static/icons/SA_ico.png">
+        <script src="../../static/js_grid/js/jquery-3.4.1.min.js"></script>
+
+        <link type="text/css" rel="stylesheet" href="../../static/bootstrap-4.3.1-dist/css/bootstrap.min.css">
+        <link type="application/octet-stream" rel="stylesheet" href="../../static/bootstrap-4.3.1-dist/css/bootstrap.min.css.map">
+        <script src="../../static/bootstrap-4.3.1-dist/js/popper.min.js" ></script>
+        <script src="../../static/bootstrap-4.3.1-dist/js/bootstrap.min.js"></script> 
+        <!-- <script type="application/octet-stream" src="../../static/bootstrap-4.3.1-dist/js/bootstrap.min.js.map"></script>  -->
+            
+        <link type="text/css" rel="stylesheet" href="../../static/js_grid/css/jsgrid.min.css" />
+        <link type="text/css" rel="stylesheet" href="../../static/js_grid/css/jsgrid-theme.min.css" />
+        <script type="text/javascript" src="../../static/js_grid/js/jsgrid.min.js"></script> 
+       
+    </head>
+
+    <style>
+        .vl {
+            border-left: 3px solid black;
+            height: 20px;
+            padding: 30px 0 5px 15px;
+        }
+
+        .js-grid-cell{
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .jsgrid-table{
+            text-align: center;
+        }
+
+        .dot {
+            height: 10px;
+            width: 10px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .dot_green {
+            background-color: #03C223;
+        }
+
+        .dot_orange {
+            background-color: #FF8C00;
+        }
+
+        .dot_red {
+            background-color: #FF0000;
+        }
+        
+    </style>
+
+    <body>
+
+        <!-- Start Nav Bar      -->
+        <nav id="nav_top" class="navbar navbar-expand navbar-light bg-light">
+            <div>
+                <a class="navbar-brand" href="/">
+                    <img src="/static/icons/SA.png" width="120" height="30" >            
+                </a>
+            </div>
+    
+            <div class="vl"></div>
+    
+            <div id="snd">
+                <div id="logo_subsection">
+                    <img src="/static/icons/signature.png"  style="width: 20px;"> 
+                </div>
+            </div>
+            
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <!-- m = margin, t margin|padding top -->
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item dropdown" >
+                    <div class="dropdown">
+                        <button class="btn dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{ data.initial_greeting }}
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu2">
+                            <a class="dropdown-item" href="/restore">Restore Password</a>
+                            <a class="btn btn-secondary dropdown-item " href="/" onclick="log_out()">Log Out</a>
+                        </div>
+                    </div>
+                </li>
+            </ul>  
+            </div>        
+        </nav>
+        <!-- End Nav Bar  -->
+
+        <div class="jumbotron">
+            <h1 class="display-4">System Signature</h1>
+            <hr class="my-4">
+            <p>Tool for manage the set of Email Signatures for the organization.</p>
+        </div>
+
+        <div class="container d-flex justify-content-center">
+
+
+            <div class="row">
+
+                <div class="col-11">
+                    <div id="jsGrid"></div>
+                </div>
+                
+                <div class="col-1">
+                    <!-- Button -->
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false">
+                          <img src="/static/icons/msg.png" style="width: 20px;"> 
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-lg">
+                          <button class="dropdown-item" type="button">Action</button>
+                          <button class="dropdown-item" type="button">Another action</button>
+                          <button class="dropdown-item" type="button">Something else here</button>
+                        </div>
+                    </div> <!-- End of Button -->
+                    
+                </div>
+            </div> <!-- End of Row -->
+            
+        </div> <!-- End of the Container -->
+        
+
+        <!-- Signature Preview -->
+        <div id="signature_preview" align="center" style="display:none;">
+                
+            <table border="0" cellspacing="0" cellpadding="0">
+                <tbody>
+                    <tr>
+                        <td rowspan="2">
+                            <a style="padding-right: 10px" href="https://www.instagram.com/systemagency/">
+                                <img id="signature_img_holder" src="" style="height: 50px">
+                            </a>
+                        </td>
+                        <td style="vertical-align:top; font-size: 8px;padding-left: 9px;
+                            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;font-style: italic;">
+                            <span id="signature_name_holder"style="margin-top: 0.5px; line-height: 0.9; display: block;"> </span>
+                            <span id="signature_position_holder"> </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align:bottom; font-size: 8px; padding-left: 9px; 
+                            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;font-style: italic;">
+                            <span id="signature_num_holder" style="font-size: 9px; line-height: 0.9;"> </span>
+                            <br>
+                            <span id="signature_num_holder_2" style="font-size: 9px; line-height: 0.9; display:none"> </span>
+                            <a href="http://www.systemagency.com/" style="margin-bottom: -1.5px; display: block; color: #000!important;">
+                                SYSTEMAGENCY.COM
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div> <!-- Enf of Signaure Preview -->
+        
+        <!-- Start Modal Init  -->
+        <!-- <button type="button" data-toggle="modal" data-target="#modalCentered" id ="openModal" style='display:none;'>
+        </button> -->
+        <!-- End Modal Init -->
+
+        <!-- Start of the Modal -->
+        <div class="modal fade" id="modalCentered"  data-backdrop="static"
+            tabindex="-1" role="dialog" aria-labelledby="modalCenteredTitle" 
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    
+                    <img src="/static/icons/signature.png"
+                        style="width: 25px; margin: 0 5px 0 0;">
+
+                    <div class="vl" style="padding: 0 0 0 5px;"></div>
+                     
+                    <div >
+                        <p id="modal_title_name">
+                            New Signtaure
+                        </p>
+                    </div>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+
+                </div>
+                <div class="modal-body">
+                
+                    <form>
+                        <div class="form-group">
+
+                            <label for="modal_pkurl">Email Address</label>
+                            <div class="input-group mb-2 mr-sm-2">
+                                <input type="text" class="form-control" 
+                                    id="modal_pkurl" placeholder="email" required>
+                                <div id="modal_pkurl_autocomplete" class="input-group-prepend">
+                                    <div class="input-group-text">@systemagency.com</div>
+                                </div>
+                                
+                            </div>
+                        
+                        </div>
+                        <div class="form-group">
+                        <label for="modal_worker_name">Full Name</label>
+                        <input id="modal_worker_name" type="text" class="form-control" placeholder="Name" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="modal_phone">Phone Number</label>
+                            <div class="input-group mb-3">
+                                <input id="modal_phone" type="text" class="form-control" placeholder="Pcpal. +1 911 111 2222" aria-label="Username" aria-describedby="basic-addon1" required>
+                            </div>
+
+                            <div class="input-group mb-3">
+                                <input id="modal_phone_two" type="text" class="form-control" placeholder="Scnd. +2 911 111 2222" aria-label="Username" aria-describedby="basic-addon1">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                        <label for="modal_ig">Instagram</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">@</span>
+                            </div>
+                            <input id="modal_ig" type="text" class="form-control" placeholder="ig_account" aria-label="Username" aria-describedby="basic-addon1">
+                        </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="modal_position">Position</label>
+                            <input id="modal_position" type="text" class="form-control" required>
+                        </div>
+
+                        <div id="signatureTypes" class="form-group">
+                            <label for="modal_signature_type">Signature Type</label>
+                            <select id="modal_signature_type" class="custom-select"> </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="modal_country">Country</label>
+                            <input id="modal_country" type="text" class="form-control">
+                        </div>
+
+                        <div class="float-left modal-footer">
+                            <button type="button" class="btn btn-light" style="border-color: black;">
+                                <img src="../../static/icons/_send_mail.png" style="width:20px;" onclick="editMsgStatus('');">
+                            </button>
+                            <span id="modal_select_for_msg" class="dot dot_orange" data-toggle="tooltip" style="align-self: flex-end;"
+                                data-placement="bottom" title="Not Select for Emailing" status="inactive"></span>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="modalHandler({}, '');">
+                                Cancel
+                            </button>
+                            <button id="button_form_submit" type="button" class="btn btn-success">
+                                Save changes
+                            </button>
+                        </div>
+
+                    </form>
+
+                </div>
+                
+            </div>
+            </div>
+        </div> <!-- End of the Modal -->
+        
+
+        <footer class="page-footer font-small unique-color-dark pt-4">    
+            <div class="footer-copyright text-center py-3">SYSTEM Agency © 2020
+            </div>
+        </footer>
+    </body>
+
+    <script type="text/javascript" src="/static/scripts/utils_auth.js"> </script>
+    <script type="text/javascript" src="/static/scripts/jsgrid_sa_signature.js"> </script>
+    
+    <script>
+        jsGrid_getData(gsi="sa_signature");
+        fillSignatureTypes();
+    </script>
+
+</html>

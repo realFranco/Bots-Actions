@@ -1,0 +1,27 @@
+On Dynamodb
+
+{
+    gsidataportion:"sa_signature_type",
+    pkurl: "sign_standard",
+    signature_name:"Standard",
+    image_v:"Standard",
+    signature_v:"Standard"
+}
+
+
+{
+    "gsidataportion":"sa_signature_type",
+    "pkurl": "sign_jovovich",
+    "signature_name":"Jovovich",
+    "image_v":"logo-jovovich",
+    "signature_v":"Standard"
+}
+
+
+{
+    gsidataportion:"sa_signature_type",
+    "pkurl": "sign_long_term",
+    "signature_name":"Long Term",
+    "image_v":"Standard",
+    "signature_v":"Long Term"
+}

@@ -1,0 +1,185 @@
+<!-- October 10th, 2019 -->
+<html>
+    <head>
+        <title> Bots Actions | Private </title>
+        <link rel="shortcut icon" type="image/x-icon" href="../../static/icons/SA_ico.png">
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+        <!-- jsGrid -->
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css" />
+        <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css" />
+    
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
+        <!--end jsGrid -->
+
+        <style>
+            .vl {
+                border-left: 3px solid black;
+                height: 20px;
+                padding: 30px 0 5px 15px;
+            }
+        </style>
+    </head>
+
+    
+    <nav id="nav_top" class="navbar navbar-expand-sm navbar-light bg-light">
+        <div>
+            <a class="navbar-brand" href="#" onclick="clean_nav_bar()">
+                <img src="/static/icons/SA.png" width="120" height="30" >            
+            </a>
+        </div>
+
+        <div class="vl" style="display: none;"></div>
+
+        <div id="snd">
+            <div id="logo_subsection"></div>
+        </div>
+        
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <!-- m = margin, t margin|padding top -->
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown" >
+                <div class="dropdown">
+                    <button class="btn dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Welcome John
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                        <a class="dropdown-item" href="#">Restore Password</a>
+                        <a class="dropdown-item" href="#">Log Out</a>
+                    </div>
+                  </div>
+            </li>
+          </ul>  
+        </div>        
+    </nav>
+    
+    
+
+    <div class="container">
+        <div class="card">
+            
+            <div class="container">
+                <div class="row align-items-center" style="padding: 5px 0 5px 0;">
+                    <div id="logo_set_1" align="center" class="col col-sm-3">
+                        <button onclick="change_sub_logos(section='logo_set_1');">
+                            <img src="/static/icons/web.png"  style="width: 20px;">
+                            <img src="/static/icons/arrow_right.png"  style="width: 20px;">
+                            <img src="/static/icons/msg.png"  style="width: 20px;"> 
+                        </button>
+                    </div>
+                
+                    <div class="col-sm-7">
+                        Web Scouting. - Set of countries and websites selected for data extractions.
+                    </div>
+
+                    <div class="col-sm-2">
+                        <span class="badge badge-pill badge-success" data-toggle="tooltip" data-placement="top" title="Last Check: Feb 21, 2019 08:00 hrs.">Running</span>
+                    </div>
+                </div>
+
+                <span></span>
+
+                <div class="row align-items-center" style="padding: 5px 0 5px 0;">
+                    <div id="logo_set_2" align="center" class="col col-sm-3">
+                        <button onclick="change_sub_logos(section='logo_set_2');">
+                            <img src="/static/icons/ig.png"  style="width: 20px;">
+                            <img src="/static/icons/arrow_right.png"  style="width: 20px;">
+                            <img src="/static/icons/msg.png"  style="width: 20px;"> 
+                        </button>
+                    </div>
+                
+                    <div class="col-sm-7">
+                        ig Biograhpy. - Detect changes at the biography from instagram accounts.
+                    </div>
+
+                    <div class="col-sm-2">
+                        <span class="badge badge-pill badge-success" data-toggle="tooltip" data-placement="top" title="Last Check: Feb 21, 2019 08:00 hrs.">Running</span>
+                    </div>
+                </div>
+
+                <span></span>
+
+                <div class="row align-items-center" style="padding: 5px 0 5px 0;">
+                    <div id="logo_set_3" align="center" class="col col-sm-3">
+                        <button onclick="change_sub_logos(section='logo_set_3');">
+                            <img src="/static/icons/ig.png"  style="width: 20px;">
+                            <img src="/static/icons/arrow_right.png"  style="width: 20px;">
+                            <img src="/static/icons/msg.png"  style="width: 20px;">
+                        </button>
+                    </div>
+                
+                    <div class="col-sm-7">
+                        ig Following. - Check new followings on every account under tracking.
+                    </div>
+
+                    <div class="col-sm-2">
+                        <span class="badge badge-pill badge-success" data-toggle="tooltip" data-placement="top" title="Last Check: Feb 21, 2019 08:00 hrs.">Running</span>
+                    </div>    
+                </div>
+
+                <span></span>
+
+                <div class="row align-items-center" style="padding: 5px 0 5px 0;">
+                    <div id="logo_set_4" align="center" class="col col-sm-3">
+                        <button onclick="change_sub_logos(section='logo_set_4');">
+                            <img src="/static/icons/signature.png"  style="width: 45px;">
+                        </button>
+                    </div>
+
+                    <div class="col-sm">
+                        Email Sig. - Set new or edit olders SYSTEM's signatures.
+                    </div>
+
+                    <div class="col-sm-2">
+                        <span class="badge badge-pill badge-success" data-toggle="tooltip" data-placement="top" title="Last Check: Feb 21, 2019 08:00 hrs.">Running</span>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    </div>
+
+    <script>
+        function change_sub_logos(str=section){
+            // Add the vertical bar & sublogos at the right of the SA's logo.
+            var sub_logo = document.getElementById(section).getElementsByTagName('img');
+            var sub_logo_destiny = document.getElementById('logo_subsection');
+            var t_sub_logos = sub_logo_destiny.getElementsByTagName('img');
+            var vertical_line = document.getElementsByClassName('vl')[0];
+            
+            vertical_line.setAttribute('style', '');
+            if(t_sub_logos.length > 0){
+                document.getElementById('logo_subsection').remove();
+                _div = document.createElement('div');
+                _div.setAttribute('id', 'logo_subsection');
+                document.getElementById('snd').appendChild(_div);
+                sub_logo_destiny = document.getElementById('logo_subsection');
+            }
+                
+            for( var i=0; i < sub_logo.length; i++){
+                let img = document.createElement('img');
+                img.setAttribute('style', 'width: '.concat( sub_logo[i]['width'], 'px;'));
+                img.setAttribute('src', sub_logo[i].src);
+                sub_logo_destiny.appendChild(img)
+            }
+            
+            console.log('opening ', section);
+        }
+
+        function clean_nav_bar(){
+            // Hide the vertical bar and the sublogos.
+            var vertical_line = document.getElementsByClassName('vl')[0];
+            var sub_logo_destiny = document.getElementById('logo_subsection');
+
+            vertical_line.setAttribute('style', ''.concat('display: none;'))
+            sub_logo_destiny.setAttribute('style', ''.concat('display: none;'))
+        }
+    </script>
+
+</html>

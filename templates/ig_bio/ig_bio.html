@@ -1,0 +1,96 @@
+<!-- October 10th, 2019 -->
+<html>
+    <head>
+        <title> Bots Actions | ig Bio </title>
+        <link rel="shortcut icon" type="image/x-icon" href="../../static/icons/SA_ico.png">
+        <script src="../../static/js_grid/js/jquery-3.4.1.min.js"></script>
+        
+        <link type="text/css" rel="stylesheet" href="../../static/bootstrap-4.3.1-dist/css/bootstrap.min.css">
+        <link type="application/octet-stream" rel="stylesheet" href="../../static/bootstrap-4.3.1-dist/css/bootstrap.min.css.map">
+        <script src="../../static/bootstrap-4.3.1-dist/js/popper.min.js" ></script>
+        <script src="../../static/bootstrap-4.3.1-dist/js/bootstrap.min.js"></script> 
+        <script type="application/octet-stream" src="../../static/bootstrap-4.3.1-dist/js/bootstrap.min.js.map"></script> 
+            
+        <link type="text/css" rel="stylesheet" href="../../static/js_grid/css/jsgrid.min.css" />
+        <link type="text/css" rel="stylesheet" href="../../static/js_grid/css/jsgrid-theme.min.css" />
+        <script type="text/javascript" src="../../static/js_grid/js/jsgrid.min.js"></script> 
+        
+    </head>
+
+    <style>
+        .vl {
+            border-left: 3px solid black;
+            height: 20px;
+            padding: 30px 0 5px 15px;
+        }
+
+        .js-grid-cell{
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+    </style>
+
+    <body>
+
+        <!-- Start Nav Bar      -->
+        <nav id="nav_top" class="navbar navbar-expand navbar-light bg-light">
+            <div>
+                <a class="navbar-brand" href="/">
+                    <img src="/static/icons/SA.png" width="120" height="30" >            
+                </a>
+            </div>
+    
+            <div class="vl"></div>
+    
+            <div id="snd">
+                <div id="logo_subsection">
+                    <img src="/static/icons/ig.png"  style="width: 20px;">
+                    <img src="/static/icons/arrow_right.png"  style="width: 20px;">
+                    <img src="/static/icons/msg.png"  style="width: 20px;"> 
+                </div>
+            </div>
+            
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <!-- m = margin, t margin|padding top -->
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item dropdown" >
+                    <div class="dropdown">
+                        <button class="btn dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{ data.initial_greeting }}
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu2">
+                            <a class="dropdown-item" href="/restore">Restore Password</a>
+                            <a class="btn btn-secondary dropdown-item " href="/" onclick="log_out()">Log Out</a>
+                        </div>
+                    </div>
+                </li>
+            </ul>  
+            </div>        
+        </nav>
+        <!-- End Nav Bar  -->
+
+        <div class="jumbotron">
+            <h1 class="display-4">ig Biography</h1>
+            <hr class="my-4">
+            <p>Tool for manage the set of Instagram accounts to track changes at their biographies.</p>
+        </div>
+
+        <div class="container">
+            <div id="jsGrid"></div>
+        </div> <!-- End of the Container -->
+
+        <footer class="page-footer font-small unique-color-dark pt-4">    
+            <div class="footer-copyright text-center py-3">SYSTEM Agency © 2020
+            </div>
+        </footer>
+    </body>
+
+    <script type="text/javascript" src="/static/scripts/utils_auth.js"> </script>
+    <script type="text/javascript" src="/static/scripts/jsgrid_ig_bio.js"> </script>
+    
+    <script>
+        jsGrid_getData(gsi='ig_bio');
+    </script>
+
+</html>

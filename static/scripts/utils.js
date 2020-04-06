@@ -9,7 +9,8 @@ the whole internal site for System Agency (botsactions.systemagency.com)
 If some issue detected, plese report it to the Developer.
 */
 
-const domain = "http://0.0.0.0:5000/";
+// const domain = "http://0.0.0.0:5000/";
+const domain = "http://127.0.0.1:8000/";
 
 async function getCountries(selectorOfTheGrid, country){
 
