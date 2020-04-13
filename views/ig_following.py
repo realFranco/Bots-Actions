@@ -5,6 +5,7 @@ Dev: franco@sustemaggency.com
 bot_actions/views/ig_following.py
 """
 
+import json
 import datetime
 from time import gmtime, strftime
 
@@ -18,9 +19,6 @@ from views.errors import errors
 from utils.utilities import utils
 from utils.dynamo_client import dynamoInterface
 
-
-SECRET_KEY \
-    = "f95b6589a033d93ac16e665ac4b7c112e55db60920146ac8776e36e0527743c6"
 
 ig_following = Blueprint('ig_following', __name__)
 
@@ -38,7 +36,7 @@ dynamo = dynamoInterface(table_name='ma_bot_actions'); dynamo.connect()
 
 
 @ig_following.route('/ig_following', methods=['GET'])
-@auth.restricted(dynamo, SECRET_KEY)
+@auth.restricted(dynamo)
 def ig_following_entry(arg):
     """ Endpoint that show the content avaliable for the ig Accounts
     under track for Following member changes.
@@ -48,11 +46,13 @@ def ig_following_entry(arg):
     """
 
     template = 'ig_following/ig_following.html'
-    
-    username = arg['pkurl'].split('@')[0].capitalize()
+
+    username = arg['pkurl'].split('@')[0]. \
+                replace('sa_', '').capitalize()
+    initial_greeting = '{}'.format(username.split('.')[0])
 
     data_container = {
-        'initial_greeting': 'Welcome {}'.format(username.split('.')[0])
+        'initial_greeting': initial_greeting
     }
 
     return render_template(template, data=data_container), 200

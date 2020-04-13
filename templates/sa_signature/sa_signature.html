@@ -108,7 +108,7 @@
                     <div id="jsGrid"></div>
                 </div>
                 
-                <div class="col-1">
+                <div class="col-1" style="display:none;">
                     <!-- Button -->
                     <div class="btn-group">
                         <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false">
@@ -245,12 +245,24 @@
                             <input id="modal_country" type="text" class="form-control">
                         </div>
 
+                        <div id="modal_temp_text_area" class="form-group" style="display: none;">
+                            <label for="temp_text_area"> Signature </label>
+                            <input id="temp_text_area" class="form-control" type="text">
+                        </div>
+
                         <div class="float-left modal-footer">
                             <button type="button" class="btn btn-light" style="border-color: black;">
                                 <img src="../../static/icons/_send_mail.png" style="width:20px;" onclick="editMsgStatus('');">
                             </button>
                             <span id="modal_select_for_msg" class="dot dot_orange" data-toggle="tooltip" style="align-self: flex-end;"
                                 data-placement="bottom" title="Not Select for Emailing" status="inactive"></span>
+
+                                <button id="modal_signature_url" type="button" class="btn btn-outline-secondary" 
+                                    title="Signature not avaliable." 
+                                    data-toggle="popover" data-placement="top" 
+                                    onclick="popoverHandler('show');"  
+                                    onmouseout="popoverHandler('hide');"
+                                    disabled>Sign. Url</button>
                         </div>
 
                         <div class="modal-footer">
@@ -269,6 +281,7 @@
             </div>
             </div>
         </div> <!-- End of the Modal -->
+        
         
 
         <footer class="page-footer font-small unique-color-dark pt-4">    

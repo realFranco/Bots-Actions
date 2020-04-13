@@ -9,8 +9,8 @@ the whole internal site for System Agency (botsactions.systemagency.com)
 If some issue detected, plese report it to the Developer.
 */
 
-// var domain = "http://0.0.0.0:5000/";
-var domain = "http://127.0.0.1:8000/";
+// var domain = "http://botsactions.systemagency.com/";
+var domain = "/";
 
 
 async function log_out(){
@@ -39,7 +39,7 @@ function new_country(){
                         data-target="#collapse${add_country}" 
                         aria-expanded="false" 
                         aria-controls="collapse${add_country}" 
-                        onclick="getCountries_auth('#jsGrid${add_country}', '${add_country}')">
+                        onclick="getCountries_auth('#jsGrid${add_country}', '${add_country}', 'agency')">
                         ${add_country}
                     </button>
                     <button type="button" class=" float-right btn btn-warning" onclick="delete_card('heading${add_country}')">Delete</button>

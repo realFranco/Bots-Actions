@@ -6,6 +6,7 @@ Dev: franco@systemagency.com
 
 """
 
+import json
 from functools import wraps
 from time import strftime, gmtime
 
@@ -21,14 +22,20 @@ class auth(object):
         
         @token, the token need it to access into the protected endpoints.
         """
-        pass
+        f = open('utils/vars.json', 'r'); self.secret_k = json.loads( f.read()  ) 
+        f.close()
 
+
+    def get_secret_key(self):
+        return self.secret_k['SECRET_KEY']
     
-    def restricted(self, dynamo, secret_key):
+
+    def restricted(self, dynamo, secret_key=""):
         """
         :dynamo, interface for dynamoDB.
         :secret_key, secret pass to encode/decode the token successfully
         """
+        
         def auth_required(func):
             @wraps(func)
             def decorated(*args, **kwargs):
@@ -39,9 +46,11 @@ class auth(object):
                 if 'token' in list(session.keys()) and session['token']:
                     token = session['token']
                     try:
+                        # unique secret key
+                        secret_key = self.secret_k['SECRET_KEY']
                         data = jwt.decode(token, secret_key)
                         args = {
-                            "gsidataportion": "SystemUser",
+                            "gsidataportion": "sa_user", # SystemUser
                             "publicKey" : data["publicKey"]        
                         }
                         output = dynamo.query_items(arguments=args, debug_query=True)

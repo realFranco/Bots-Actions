@@ -19,8 +19,6 @@ from utils.auth import auth
 from utils.utilities import utils
 from utils.dynamo_client import dynamoInterface
 
-SECRET_KEY \
-    = "f95b6589a033d93ac16e665ac4b7c112e55db60920146ac8776e36e0527743c6"
 
 sessions = Blueprint('sessions', __name__)
 
@@ -39,30 +37,34 @@ dynamo = dynamoInterface(table_name='ma_bot_actions'); dynamo.connect()
 
 @sessions.route('/login', methods=['POST'])
 def _in():
-    auth = {
+    intern_auth = {
         'pkurl': request.headers.get('Email'),
         'password': request.headers.get('Password')
     }
 
     args = {
-        'gsidataportion': 'SystemUser',
-        'pkurl': auth['pkurl'],
-        'publicKey': auth['password']
+        'gsidataportion': 'sa_user', # SystemUser
+        'pkurl': intern_auth['pkurl'],
+        'publicKey': intern_auth['password']
     }
 
-    if not auth or not auth['pkurl'] or not auth['password']:
+    if not intern_auth or not intern_auth['pkurl'] or not intern_auth['password']:
         return jsonify({"message": "Could not verify the values sended."}), 401
     else:
         user = dynamo.query_items(arguments=args, debug_query=True)
+        print('user', user)
         if user["Count"]:
+            secret_key = auth.get_secret_key()
+
             # The user exist, got the unique item
             user = user["Items"][0]
+            
             token = jwt.encode(
                     {
                         'publicKey': user['publicKey'], 
                         'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=18000)
                     },
-                    key=SECRET_KEY)
+                    key=secret_key)
             session['token'] = token.decode('utf-8')
             # Creating a session: 201
             return redirect(url_for('data_template')), 201
@@ -72,7 +74,7 @@ def _in():
 
 
 @sessions.route('/logout', methods=['GET'])
-@auth.restricted(dynamo, SECRET_KEY)
+@auth.restricted(dynamo)
 def log_out(actual_user):
     # session['token'] = ''
     session.pop('token')
@@ -85,7 +87,7 @@ def register():
     password = request.headers.get('Password')
 
     item = {
-        "gsidataportion": "SystemUser",
+        "gsidataportion": "sa_user", # SystemUser
         "pkurl": request.headers.get('Email'),
         "publicKey": password,
         "date_in": utils.date_formating()
@@ -95,7 +97,7 @@ def register():
 
 
 @sessions.route('/restore', methods=['GET'])
-@auth.restricted(dynamo, SECRET_KEY)
+@auth.restricted(dynamo)
 def in_update_pass(actual_user):
     return render_template('sessions/restore.html'), 200
 
@@ -107,10 +109,10 @@ def singin():
 
 
 @sessions.route('/updatePass', methods=['PUT'])
-@auth.restricted(dynamo, SECRET_KEY)
+@auth.restricted(dynamo)
 def update_pass(actual_user):
     args = {
-        "gsidataportion": "SystemUser",
+        "gsidataportion": "sa_user", # SystemUser
         'pkurl': request.args.get('email')
     }
 

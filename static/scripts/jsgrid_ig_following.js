@@ -9,8 +9,8 @@ manipulation over the data inside of the DynamoDB's tables.
 Report problems to the developers if it is found some issues.
 */
 
-// var domain = "http://0.0.0.0:5000/";
-var domain = "http://127.0.0.1:8000/";
+// var domain = "http://botsactions.systemagency.com/";
+var domain = "/";
 
 function editParams(domain, endPoint, filter){
 
@@ -49,10 +49,9 @@ function check_ig_format(ig){
 
 async function jsGrid_getData(gsi){
     var staticRoute = domain + "queryItems" + "?gsidataportion=" + gsi;
+    console.log('staticRoute', staticRoute);
     const response = await fetch(staticRoute);
     var staticData = await response.json();
-
-    console.log('staticRoute', staticRoute);
     console.log('staticData', staticData);
 
     var endPoint = "";

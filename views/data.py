@@ -5,6 +5,7 @@ Dev: franco@sustemaggency.com
 bot_actions/views/data.py
 """
 
+import json
 import datetime
 import urllib.parse
 from time import gmtime, strftime
@@ -17,9 +18,6 @@ from utils.auth import auth
 from utils.utilities import utils
 from utils.dynamo_client import dynamoInterface
 
-
-SECRET_KEY \
-    = "f95b6589a033d93ac16e665ac4b7c112e55db60920146ac8776e36e0527743c6"
 
 data = Blueprint('data', __name__)
 
@@ -35,9 +33,8 @@ auth = auth()
 # Starting the DynamoDB interface
 dynamo = dynamoInterface(table_name='ma_bot_actions'); dynamo.connect()
 
-
 @data.route('/createItem', methods=['POST'])
-@auth.restricted(dynamo, SECRET_KEY)
+@auth.restricted(dynamo)
 def create(actual_user):
     
     
@@ -50,8 +47,7 @@ def create(actual_user):
         item['pkurl'] = 'https://www.instagram.com/{}/'.format(_ig)
 
     elif item['gsidataportion'] == 'sa_signature':
-        print("Create signature member")
-        print(item); print('\n\n')
+        
 
         item['phone'] = '+' + item['phone'][1:]
 
@@ -60,6 +56,13 @@ def create(actual_user):
         
         if (type(item['select_for_msg']) == str ):
             item['select_for_msg'] = item['select_for_msg'] == 'true' # bool
+
+        # TODO: Create the signature
+        s3_info = utils.signature_maker(data=item, output=True)
+        item['s3_file'] = s3_info['s3_file']
+
+        print("Create signature member")
+        print(item); print('\n\n')
 
     for _ in list(item.keys()):
         if item['gsidataportion'] == 'sa_signature' and item[_] == "":
@@ -74,7 +77,7 @@ def create(actual_user):
 
 
 @data.route('/queryItems', methods=['GET'])
-@auth.restricted(dynamo, SECRET_KEY)
+@auth.restricted(dynamo)
 def query(actual_user):
     """The Read section for the CRUD.
     
@@ -105,7 +108,7 @@ def query(actual_user):
 
 
 @data.route('/updateItem', methods=['PUT'])
-@auth.restricted(dynamo, SECRET_KEY)
+@auth.restricted(dynamo)
 def update(actual_user):
     del_attrs = ""
     gsi = ""
@@ -159,7 +162,7 @@ def update(actual_user):
     
 
 @data.route('/deleteItem', methods=['DELETE'])
-@auth.restricted(dynamo, SECRET_KEY)
+@auth.restricted(dynamo)
 def delete(actual_user):
     key = {
         "pkurl": request.args.get('pkurl')

@@ -9,9 +9,45 @@ manipulation over the data inside of the DynamoDB's tables.
 Report problems to the developers if you found some issues.
 */
 
-// var domain = "http://0.0.0.0:5000/";
-var domain = "http://127.0.0.1:8000/";
+// var domain = "http://botsactions.systemagency.com/";
+var domain = "/";
 var g_gsi = "";
+
+
+function copySignatureUrl(){
+    let temp_text_area = "";
+    document.getElementById("modal_temp_text_area").removeAttribute("style");
+
+    temp_text_area = document.getElementById("temp_text_area");
+    temp_text_area.select();
+    document.execCommand("copy");
+    console.log("copy end");
+    
+    // Add a tittle to the button, notifying that the url was copied
+    sign_button = document.getElementById("modal_signature_url");
+    sign_button.textContent = "Copied!";
+
+    document.getElementById("modal_temp_text_area").
+        setAttribute("style", "display: none;");
+}
+
+// action = ["show", "hide"]
+function popoverHandler(action){
+    let _attr_popover = document.getElementById("modal_signature_url");
+
+    // If the button it avaliable go to the copy and the message popover
+    if(!_attr_popover.hasAttribute("disabled")){
+
+        if(action=="show"){
+            _attr_popover.setAttribute("title", "Signature Url Copied.");
+            copySignatureUrl();
+        }
+            
+        $('#modal_signature_url').popover(action);
+    }
+    _attr_popover.setAttribute("title", "Signature avaliable.");
+}
+
 
 // filter, dictionary with params
 // delete_kyes, list of properties to delete over the object "filter"
@@ -31,8 +67,9 @@ function editParams(domain, endPoint, filter, delete_keys=[], get_empty=false){
         Object.keys(filter).forEach( key => {
             if (typeof(filter[key]) == "string" && filter[key] == "")
                 empty_attrs.push( key ); });
-
-        filter["delete_item"] = empty_attrs;
+        
+        if (empty_attrs.length > 0)
+            filter["delete_item"] = empty_attrs;
     }
     
     Object.keys(filter).forEach( key => {
@@ -78,8 +115,10 @@ function change_preview(item){
     preview_data.number.textContent = item["phone"];
 
     // Optional Data, for that, it is necessary a null check before set it.
-    if (item["position"] != undefined)
-        preview_data.position.textContent = item["position"].toUpperCase();
+    if (item["position"] != undefined){
+        _temp_pos = String(item["position"])
+        preview_data.position.textContent = _temp_pos.toUpperCase();
+    }
 
     // If the item have second phone number then, display it
     if (item["phone_two"] != undefined)
@@ -100,6 +139,7 @@ async function getResource(gsi, endPoint = "queryItems"){
     // example of ref: queryItems?gsidataportion=sa_signature_type
     return await response_sign_t.json();
 }
+
 /**
     * Value extractor from the pop up modal.
     * 
@@ -192,6 +232,7 @@ async function modalHandler(item, exec_route=""){
     let modal_cont = "", end_point = "";
     let auto_comp = document.getElementById("modal_pkurl_autocomplete");
     let _btn = document.getElementById("button_form_submit");
+    let sign_button = document.getElementById("modal_signature_url");
     
     if( exec_route.includes("show")){
         action = "show";
@@ -200,19 +241,39 @@ async function modalHandler(item, exec_route=""){
             // Edit the buttom to create a member
             _btn = document.getElementById("button_form_submit");
             _btn.setAttribute("onclick", "modalHandler({}, 'show.create.send');");
+
             // The email autocomplete will appeare
             auto_comp.style["display"] = "";
 
+            // The url signature button it is disabled
+            sign_button.setAttribute("disabled", "");
+
+            // Back the predefine name to the sing button
+            sign_button.textContent = "Sign. Url";
+
             // Clear the modal.
             modal_cont = fetchModal("", true);
+
+            // The s3 attreibute need to be out
+
             // Edit the modal tittle
             modal_title.textContent = "New Signature";
-
-            
         }else{
             if (exec_route == "show.edit"){
+                // Back the predefine name to the singature button
+                sign_button.textContent = "Sign. Url";
+
                 // Edit the buttom to edit a member
                 _btn.setAttribute("onclick", "modalHandler({}, 'show.edit.send');");
+
+                // Add the signature url into an attr over the modal
+                if (item["s3_file"]) {
+                    document.getElementById("temp_text_area").value = item['s3_file'];
+                    sign_button.setAttribute("title", 'Signature avaliable.');
+
+                    // And enable the button for copy the signature
+                    sign_button.removeAttribute('disabled');
+                }
 
                 modal_cont = fetchModal("");
 
@@ -253,8 +314,16 @@ async function modalHandler(item, exec_route=""){
 
         // Hide the modal after make click
         action = "hide";
+        sign_img = "https://s3.us-east-2.amazonaws.com/systemagency.com/public";
 
         modal_cont = fetchModal("all values");
+
+        // Adding the signature image that correspong with the sign. type
+        if (modal_cont["signature_type"] == "Jovovich")
+            sign_img = sign_img + "/logo-jovovich.png";
+        else
+            sign_img = sign_img + "/SYSTEM+AGENCY.png";
+        modal_cont["image"] = sign_img;
 
         if (exec_route == "show.edit.send"){
             end_point = "updateItem?";
@@ -263,7 +332,6 @@ async function modalHandler(item, exec_route=""){
             if (exec_route == "show.create.send"){
                 end_point = "createItem?";
                 type = "POST";
-                modal_cont["img"] = "https://s3.us-east-2.amazonaws.com/systemagency.com/public/static/ig_img_new_item.jpg";
 
                 // change the property name 'signature_type' for 'signature_name'
                 modal_cont["signature_name"] = modal_cont["signature_type"];
@@ -298,8 +366,7 @@ async function modalHandler(item, exec_route=""){
         _btn.setAttribute("onclick", "$.noop");
     }
 
-    $('#modalCentered').modal(action);
-    
+    $('#modalCentered').modal(action);    
 } // End of modalHandler
 
 async function fillSignatureTypes(){

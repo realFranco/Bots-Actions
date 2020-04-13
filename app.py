@@ -12,7 +12,7 @@ notificationes on the emails avaliable like destiny,
 
 > lsof -i :8000
 
-kill -9 xxx
+> kill -9 xxx
 
 """
 
@@ -37,9 +37,14 @@ from views.country_scouts import country_scouts
 
 from utils.dynamo_client import dynamoInterface
 
+import decimal
+import flask.json
+
 app = Flask(__name__)
-app.config['SECRET_KEY'] \
-    = "f95b6589a033d93ac16e665ac4b7c112e55db60920146ac8776e36e0527743c6"
+
+# Init the decorator for authentication
+auth = auth()
+app.config['SECRET_KEY'] = auth.get_secret_key()
     
 # Grant access on CORS
 CORS(app)
@@ -53,9 +58,6 @@ app.register_blueprint(web_scouting)
 app.register_blueprint(sa_signature)
 app.register_blueprint(country_scouts)
 # app.register_blueprint(errors)
-
-# Init the decorator for authentication
-auth = auth() 
 
 # Starting the DynamoDB interface
 dynamo = dynamoInterface(table_name='ma_bot_actions'); dynamo.connect()
@@ -71,14 +73,15 @@ def main_login():
         try:
             data = jwt.decode(token, app.config['SECRET_KEY'])
             args = {
-                "gsidataportion": "SystemUser",
+                "gsidataportion": "sa_user", # SystemUser
                 "publicKey" : data["publicKey"]        
             }
             output = dynamo.query_items(arguments=args, debug_query=True)
             if output['Count'] > 0:
                 # User exist
                 template = 'main/main.html'
-                username = output['Items'][0]['pkurl'].split('@')[0].capitalize()
+                username = output['Items'][0]['pkurl'].split('@')[0]. \
+                    replace('sa_', '').capitalize()
                 data['initial_greeting'] = 'Welcome {}'.format(username.split('.')[0])
         except ExpiredSignature as exp:
             print("Expired session: ")
@@ -99,7 +102,7 @@ def data_template():
         token = session['token']
         data = jwt.decode(token, app.config['SECRET_KEY'])
         args = {
-            "gsidataportion": "SystemUser",
+            "gsidataportion": "sa_user", # SystemUser
             "publicKey" : data["publicKey"]        
         }
         output = dynamo.query_items(arguments=args, debug_query=True)
@@ -138,3 +141,4 @@ def data_template():
 
 if __name__ == '__main__':
     app.run(port=8000)
+    # app.run(host='0.0.0.0', port='80')

@@ -19,9 +19,6 @@ from utils.utilities import utils
 from utils.dynamo_client import dynamoInterface
 
 
-SECRET_KEY \
-    = "f95b6589a033d93ac16e665ac4b7c112e55db60920146ac8776e36e0527743c6"
-
 web_scouting = Blueprint('web_scouting', __name__)
 
 # Grant access on CORS
@@ -38,7 +35,7 @@ dynamo = dynamoInterface(table_name='ma_bot_actions'); dynamo.connect()
 
 
 @web_scouting.route('/web_scouting', methods=['GET'])
-@auth.restricted(dynamo, SECRET_KEY)
+@auth.restricted(dynamo)
 def web_scouting_entry(arg):
     """ 
     This endpoint will render the endpoint for manage the Web Scouting
@@ -53,12 +50,15 @@ def web_scouting_entry(arg):
 
     template, token = '', None
     initial_greeting = 'Welcome'
-    
+    secret_key = auth.get_secret_key()
+    print('web scouting secret_key', secret_key)
+
     if 'token' in list(session.keys()) and session['token']:
+        
         token = session['token']
-        data = jwt.decode(token, SECRET_KEY) # app.config['SECRET_KEY']
+        data = jwt.decode(token, secret_key) # app.config['SECRET_KEY']
         args = {
-            "gsidataportion": "SystemUser",
+            "gsidataportion": "sa_user", # SystemUser
             "publicKey" : data["publicKey"]        
         }
         output = dynamo.query_items(arguments=args, debug_query=True)
@@ -66,8 +66,9 @@ def web_scouting_entry(arg):
         if output['Count'] > 0:
             # User exist
             template = 'web_scouting/web_scouting.html'
-            username = output['Items'][0]['pkurl'].split('@')[0].capitalize()
-            initial_greeting = 'Welcome {}'.format(username.split('.')[0])
+            username = output['Items'][0]['pkurl'].split('@')[0]. \
+                replace('sa_', '').capitalize()
+            initial_greeting = '{}'.format(username.split('.')[0])
 
             args = {'gsidataportion':'agency'}
             attr_target = ['url_name']

@@ -1,4 +1,4 @@
-/* Date: MArch 12, 2020
+/* Date: March 12, 2020
 
 Dev: franco@systemagency.com
 
@@ -8,8 +8,8 @@ the whole internal site for System Agency (botsactions.systemagency.com)
 If some issue detected, plese report it to the Developer.
 */
 
-// var domain = "http://0.0.0.0:5000/";
-var domain = "http://127.0.0.1:8000/";
+//var domain = "http://botsactions.systemagency.com/";
+var domain = "/";
 
 function editParams(domain, endPoint, filter){
 
@@ -67,6 +67,7 @@ function editParamsQuery(domain, endPoint, main_args, filter){
 
 async function getCountries_auth(selectorOfTheGrid, country, gsi){
 
+    var gsi = "agency"; // static assignment
     var endPoint = "queryItems";
     var staticRoute = "".concat(domain, endPoint, "?",
         "gsidataportion=", String(gsi), "&", 
@@ -102,7 +103,7 @@ async function getCountries_auth(selectorOfTheGrid, country, gsi){
 
             insertItem: async function insertI(filter){
                 let _temp_obj = {
-                    "gsidataportion": gsi,
+                    "gsidataportion": "agency",
                     "country": country,
                     "progress": "In Progress"
                 };
@@ -180,27 +181,6 @@ async function getCountries_auth(selectorOfTheGrid, country, gsi){
             // { name:"country", title: "Country", type: "text", width: 150, visible:false},
             // { name:"gsidataportion", title: "GSI", type: "text", width: 150, visible:false},
             { name: "pkurl", title:"Url", type: "text", width: 250, validate: "required", editing:false },
-            { 
-                name: "progress", title:"Progress", type: "text", width: 70, editing:true, inserting:false,
-                cellRenderer : (value, item) => {
-                    // console.log("render badges"); console.log(value);
-                    let l_progreess = "", tag_progress = '<td align="center"> </td>';
-
-                    if (value && value != "None"){
-                    
-                        if (value == "Completed") l_progreess = "success";
-                        else l_progreess = "warning";
-
-                        tag_progress = `
-                                        <td align="center">
-                                            <span class="badge badge-pill badge-${l_progreess}">
-                                                ${value}
-                                            </span>
-                                        </td>`;
-                    }
-                        
-                  return tag_progress;
-                }},
             { type: "control" }
         ]
     });

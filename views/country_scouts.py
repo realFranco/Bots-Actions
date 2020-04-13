@@ -5,6 +5,7 @@ Dev: franco@sustemaggency.com
 bot_actions/views/country_scouts.py
 """
 
+import json
 import datetime
 from time import gmtime, strftime
 
@@ -16,9 +17,6 @@ from utils.auth import auth
 from utils.utilities import utils
 from utils.dynamo_client import dynamoInterface
 
-
-SECRET_KEY \
-    = "f95b6589a033d93ac16e665ac4b7c112e55db60920146ac8776e36e0527743c6"
 
 country_scouts = Blueprint('country_scouts', __name__)
 
@@ -35,7 +33,7 @@ auth = auth()
 dynamo = dynamoInterface(table_name='ma_bot_actions'); dynamo.connect()
 
 @country_scouts.route('/deleteCountry', methods=['DELETE'])
-@auth.restricted(dynamo, SECRET_KEY)
+@auth.restricted(dynamo)
 def delete_country(actual_user):
     status_code = 200
     args ={

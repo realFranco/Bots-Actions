@@ -9,8 +9,8 @@ the whole internal site for System Agency (botsactions.systemagency.com)
 If some issue detected, plese report it to the Developer.
 */
 
-// const domain = "http://0.0.0.0:5000/";
-const domain = "http://127.0.0.1:8000/";
+// var domain = "http://botsactions.systemagency.com/";
+var domain = "/";
 
 async function getCountries(selectorOfTheGrid, country){
 
@@ -105,7 +105,7 @@ async function getCountries(selectorOfTheGrid, country){
 
 async function log_in(){
     var goTo = domain.concat("login");
-    var email = document
+    var email = "sa_" + document
                     .getElementById("email")
                     .value
                     .split("@")[0]
@@ -114,6 +114,7 @@ async function log_in(){
                             .getElementById("password")
                             .value;
 
+    console.log("email ", email);
     var SHA256 = new Hashes.SHA256
     password = SHA256.hex(password)
 
@@ -130,7 +131,7 @@ async function log_in(){
 
 async function sing_in(){
     var goTo = domain.concat("registerUser");
-    var email = document
+    var email = "sa_" + document
                     .getElementById("email")
                     .value
                     .split("@")[0]
