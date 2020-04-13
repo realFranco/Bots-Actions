@@ -35,7 +35,7 @@ Microservices
 Public Subdomain
 ======================
 
-**botactions.systemagency.com**
+**bots.systemagency.com**
 
 ================================
 Instructions for Run the server
