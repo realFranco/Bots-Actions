@@ -73,7 +73,7 @@ async function getCountries_auth(selectorOfTheGrid, country, gsi){
         "gsidataportion=", String(gsi), "&", 
         "country=", String(country)
     );
-
+    
     const response = await fetch(staticRoute);
     var staticData = await response.json();
 

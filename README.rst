@@ -54,13 +54,25 @@ Instructions for Run the server
     
        $: pip3 install -r requeriments.txt
 
-2. Run the web-server.
+2. Create the secret key file named vars.json.
+
+    .. code-block:: console
+    
+       $: touch utils/vars.json
+       $: # Edit the file
+       {
+           "SECRET_KEY": "the_secret_key"
+       }
+
+
+
+3. Run the web-server.
     
     .. code-block:: console
     
        $: python3 app.py
 
-2.1. If you need to close the terminal where the script it is running, do this.
+3.1. If you need to close the terminal where the script it is running, do this.
 
     .. code-block:: console
     

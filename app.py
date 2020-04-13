@@ -42,6 +42,16 @@ import flask.json
 
 app = Flask(__name__)
 
+class MyJSONEncoder(flask.json.JSONEncoder):
+
+    def default(self, obj):
+        if isinstance(obj, decimal.Decimal):
+            # Convert decimal instances to strings.
+            return str(obj)
+        return super(MyJSONEncoder, self).default(obj)
+
+app.json_encoder = MyJSONEncoder
+
 # Init the decorator for authentication
 auth = auth()
 app.config['SECRET_KEY'] = auth.get_secret_key()
@@ -141,4 +151,4 @@ def data_template():
 
 if __name__ == '__main__':
     app.run(port=8000)
-    # app.run(host='0.0.0.0', port='80')
+    # app.run(host='0.0.0.0', port='443')
