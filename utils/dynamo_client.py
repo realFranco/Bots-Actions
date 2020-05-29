@@ -140,6 +140,16 @@ class dynamoInterface(object):
             for i in range(m):
                 fe += 'attribute_exists(%s)' % (attr_exist[i])
                 if i < m-1: fe += ' and '
+                    
+       """
+       if m:
+           if fe != '': fe += ' and ' # divide contains from attr_exist
+           last = attr_exist[-1]
+           x = set( map( lambda el: 
+               'attr %s and' %str(el) if el != last else 'attr %s' %str(el), 
+                   attr_exist) )
+           fe += ' '.join( list(x) ) 
+       """
         
         if equal:
             keys_eq,values_eq = list(equal.keys()), list(equal.values())
